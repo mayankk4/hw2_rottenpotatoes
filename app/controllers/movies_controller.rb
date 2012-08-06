@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
       end
     end
 
-    if session['ratings'] != nil
+    if session['ratings'] != nil && session['ratings'] != {}
         if session['sort'] == 'title'
           @sort = session['sort']
           @movies =  Movie.where(:rating => session['ratings'].keys).order(:title)
