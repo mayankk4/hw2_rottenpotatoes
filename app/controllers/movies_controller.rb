@@ -7,12 +7,18 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings_hash = Movie.select('DISTINCT rating')
+    @all_ratings = []
+    @all_ratings_hash.map { |i| @all_ratings << i.rating }
+
     if params["sort"] == 'title'
       @sort = "title"
       @movies = Movie.order(:title).all
     elsif params[:sort] == 'release_date'
       @sort = "release_date"
       @movies = Movie.order(:release_date).all
+    elsif params['ratings'] != nil
+        @movies =  Movie.where(:rating => params['ratings'].keys)
     else
       @sort = "none"
       @movies = Movie.all
