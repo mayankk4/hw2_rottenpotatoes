@@ -11,17 +11,33 @@ class MoviesController < ApplicationController
     @all_ratings = []
     @all_ratings_hash.map { |i| @all_ratings << i.rating }
 
-    if params["sort"] == 'title'
-      @sort = "title"
-      @movies = Movie.order(:title).all
-    elsif params[:sort] == 'release_date'
-      @sort = "release_date"
-      @movies = Movie.order(:release_date).all
-    elsif params['ratings'] != nil
-        @movies =  Movie.where(:rating => params['ratings'].keys)
+    if params['ratings'] == nil && params['sort'] == nil && params['commit'] != nil
+      session['ratings'] = {}
+    end
+
+    if params['ratings'] != nil
+      session['ratings'] = params['ratings']
     else
-      @sort = "none"
-      @movies = Movie.all
+      if session['ratings'] != {}
+        puts "here"
+        puts params.merge(session['ratings'])
+        puts "there"
+        redirect_to :action=>"index", nil => params.merge({:ratings => session['ratings']})
+      end
+    end
+
+    if session['ratings'] != nil
+        if params["sort"] == 'title'
+          @sort = "title"
+          @movies =  Movie.where(:rating => session['ratings'].keys).order(:title)
+        elsif params["sort"] == 'release_date'
+          @sort = "release_date"
+          @movies =  Movie.where(:rating => session['ratings'].keys).order(:release_date)
+        else
+          @movies =  Movie.where(:rating => session['ratings'].keys)          
+        end
+    else
+      @movies = {}
     end
 
       
