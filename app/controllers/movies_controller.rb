@@ -21,21 +21,21 @@ class MoviesController < ApplicationController
 
 
     if params['ratings'] == nil && params['sort'] == nil && params['commit'] != nil # reset request
-      session['ratings'] = {}
+      session['ratings'] = nil
       session['sort'] = ""
     end
 
     if params['ratings'] != nil
       session['ratings'] = params['ratings']
     else
-      if session['ratings'] != {}
+      if session['ratings'] != nil
         if params != nil
           redirect_to :action=>"index", nil => params.merge({:ratings => session['ratings']})
         end
       end
     end
 
-    if session['ratings'] != nil && session['ratings'] != {}
+    if session['ratings'] != nil
         if session['sort'] == 'title'
           @sort = session['sort']
           @movies =  Movie.where(:rating => session['ratings'].keys).order(:title)

@@ -14,13 +14,13 @@
     %input{:name => "utf8", :type => "hidden", :value => "✓"}/
   Include:
   G
-  %input#ratings_G{:checked => "checked" &&  session['ratings']["G"] , :name => "ratings[G]", :type => "checkbox", :value => "1"}
+  %input#ratings_G{:checked => "checked" &&  session['ratings']!= nil && session['ratings']["G"] , :name => "ratings[G]", :type => "checkbox", :value => "1"}
     PG
-    %input#ratings_PG{:checked => "checked" &&  session['ratings']["PG"] , :name => "ratings[PG]", :type => "checkbox", :value => "1"}
+    %input#ratings_PG{:checked => "checked" &&  session['ratings']!= nil &&  session['ratings']["PG"] , :name => "ratings[PG]", :type => "checkbox", :value => "1"}
       PG-13
-      %input#ratings_PG-13{:checked => "checked" &&  session['ratings']["PG-13"] , :name => "ratings[PG-13]", :type => "checkbox", :value => "1"}
+      %input#ratings_PG-13{:checked => "checked" &&  session['ratings']!= nil &&  session['ratings']["PG-13"] , :name => "ratings[PG-13]", :type => "checkbox", :value => "1"}
         R
-        %input#ratings_R{:checked => "checked" &&  session['ratings']["R"] , :name => "ratings[R]", :type => "checkbox", :value => "1"}
+        %input#ratings_R{:checked => "checked" &&  session['ratings']!= nil &&  session['ratings']["R"] , :name => "ratings[R]", :type => "checkbox", :value => "1"}
           %input#ratings_submit{:name => "commit", :type => "submit", :value => "Refresh"}
 
 %table#movies
