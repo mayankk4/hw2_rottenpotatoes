@@ -29,10 +29,9 @@ class MoviesController < ApplicationController
       session['ratings'] = params['ratings']
     else
       if session['ratings'] != {}
-        if params == nil
-          params = {}
+        if params != nil
+          redirect_to :action=>"index", nil => params.merge({:ratings => session['ratings']})
         end
-        redirect_to :action=>"index", nil => params.merge({:ratings => session['ratings']})
       end
     end
 
