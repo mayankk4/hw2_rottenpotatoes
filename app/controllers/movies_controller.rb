@@ -11,8 +11,18 @@ class MoviesController < ApplicationController
     @all_ratings = []
     @all_ratings_hash.map { |i| @all_ratings << i.rating }
 
-    if params['ratings'] == nil && params['sort'] == nil && params['commit'] != nil
+    if  params['sort'] != nil # sort request
+      session['sort'] = params['sort']
+    end
+
+    if  params['sort'] == nil && params['commit'] != nil # filter request
+      session['sort'] = ""
+    end
+
+
+    if params['ratings'] == nil && params['sort'] == nil && params['commit'] != nil # reset request
       session['ratings'] = {}
+      session['sort'] = ""
     end
 
     if params['ratings'] != nil
@@ -27,11 +37,11 @@ class MoviesController < ApplicationController
     end
 
     if session['ratings'] != nil
-        if params["sort"] == 'title'
-          @sort = "title"
+        if session['sort'] == 'title'
+          @sort = session['sort']
           @movies =  Movie.where(:rating => session['ratings'].keys).order(:title)
-        elsif params["sort"] == 'release_date'
-          @sort = "release_date"
+        elsif session['sort'] == 'release_date'
+          @sort = session['sort']
           @movies =  Movie.where(:rating => session['ratings'].keys).order(:release_date)
         else
           @movies =  Movie.where(:rating => session['ratings'].keys)          
