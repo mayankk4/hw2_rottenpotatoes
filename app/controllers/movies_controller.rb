@@ -53,6 +53,9 @@ class MoviesController < ApplicationController
   end
 
   def new
+    if params != nil && params["clear"] != nil
+      session.clear
+    end
     # default: render 'new' template
   end
 
